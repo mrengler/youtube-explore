@@ -8,7 +8,7 @@ __author__ = 'Guillaume Chaslot'
         4) stores the results in a json file
 """
 
-import urllib2
+import urllib.request
 import re
 import json
 import sys
@@ -67,7 +67,7 @@ class YoutubeFollower():
             return self._search_infos[search_terms][0:max_results]
 
         # Escaping search terms for youtube
-        escaped_search_terms = urllib2.quote(search_terms.encode('utf-8'))
+        escaped_search_terms = urllib.request.quote(search_terms.encode('utf-8'))
 
         # We only want search results that are videos, filtered by viewcoung.
         #  This is achieved by using the youtube URI parameter: sp=CAMSAhAB
@@ -88,8 +88,8 @@ class YoutubeFollower():
         headers = {}
         if self._language:
             headers["Accept-Language"] = self._language
-        url_request = urllib2.Request(url, headers=headers)
-        html = urllib2.urlopen(url_request)
+        url_request = urllib.request.Request(url, headers=headers)
+        html = urllib.request.urlopen(url_request)
         soup = BeautifulSoup(html, "lxml")
 
         videos = []
@@ -123,9 +123,9 @@ class YoutubeFollower():
 
         while True:
             try:
-                html = urllib2.urlopen(url)
+                html = urllib.request.urlopen(url)
                 break
-            except urllib2.URLError:
+            except urllib.request.URLError:
                 time.sleep(1)
         soup = BeautifulSoup(html, "lxml")
 
