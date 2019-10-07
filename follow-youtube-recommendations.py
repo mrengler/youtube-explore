@@ -47,7 +47,7 @@ class YoutubeFollower():
 
     def clean_count(self, text_count):
         # Ignore non ascii
-        ascii_count = text_count.encode('ascii', 'ignore')
+        ascii_count = text_count.encode('ascii', 'ignore').decode('utf-8')
         # Ignore non numbers
         p = re.compile(r'[\d,]+')
         return int(p.findall(ascii_count)[0].replace(',', ''))
@@ -354,7 +354,7 @@ class YoutubeFollower():
 
         # Computing the average recommendations of the video:
         # The average is computing only on the top videos, so it is an underestimation of the actual average.
-        if video_infos is []:
+        if len(video_infos) == 0:
             return []
         sum_recos = 0
         for video in video_infos:
