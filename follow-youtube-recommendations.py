@@ -14,11 +14,11 @@ import json
 import sys
 import argparse
 import time
-
+import socket
 from bs4 import BeautifulSoup
 
-RECOMMENDATIONS_PER_VIDEO = 1
-RESULTS_PER_SEARCH = 1
+RECOMMENDATIONS_PER_VIDEO = 10
+RESULTS_PER_SEARCH = 10
 
 # NUMBER OF MIN LIKES ON A VIDEO TO COMPUTE A LIKE RATIO
 MIN_LIKES_FOR_LIKE_RATIO = 5
@@ -126,7 +126,10 @@ class YoutubeFollower():
                 html = urllib.request.urlopen(url)
                 break
             except urllib.request.URLError:
-                time.sleep(1)
+                if socket.timeout:
+                    break
+                else:
+                    time.sleep(1)
         soup = BeautifulSoup(html, "lxml")
 
         # Views
